@@ -16,6 +16,8 @@ public class Bootstrap : MonoBehaviour {
 		var builder = new ContainerBuilder();
 		builder.RegisterType<Foo>().As<IFoo>();
 		builder.RegisterType<Bar>();
+		builder.RegisterType<Baz>();
+		builder.RegisterType<Baz.Factory>();
 		DependencyResolver.Container = builder.Build();
 	}
 }

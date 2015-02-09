@@ -10,10 +10,13 @@ public interface IFoo
 
 public class Foo : IFoo, System.IDisposable
 {
+	public static int ActiveCounter = 0;
+	public static int DisposeCounter = 0;
 	string _text;
 
 	public Foo()
 	{
+		Foo.ActiveCounter++;
 		_text = "Autofac works " + string.Format("{0}", System.DateTime.Now);
 	}
 
@@ -24,14 +27,9 @@ public class Foo : IFoo, System.IDisposable
 
 	public void Dispose()
 	{
-		Debug.Log("Disposing");
-		DisposeCounter.CurrentCount++;
+		Foo.ActiveCounter--;
+		Foo.DisposeCounter++;
 	}
-}
-
-public class DisposeCounter
-{
-	public static int CurrentCount = 0;
 }
 
 public class Test : MonoBehaviour 
@@ -42,7 +40,7 @@ public class Test : MonoBehaviour
 		{
 			var reader = scope.Resolve<IFoo>();
 			Text txt = this.GetComponent<Text>();
-			txt.text = string.Format("[disposed {0}] {1}", DisposeCounter.CurrentCount, reader.GetMyString());
+			txt.text = string.Format("[{0}:{1}] {2}", Foo.ActiveCounter, Foo.DisposeCounter, reader.GetMyString());
 		}
 	}
 }
