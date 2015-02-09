@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using Autofac;
 
@@ -8,7 +9,7 @@ public interface IFoo
 }
 
 public class Foo : IFoo
-{
+	{
 	public string GetMyString()
 	{
 		return "Autofac works!";
@@ -22,7 +23,7 @@ public class Test : MonoBehaviour {
 		using (var scope = DependencyResolver.Container.BeginLifetimeScope())
 		{
 			var reader = scope.Resolve<IFoo>();
-			TextMesh txt = this.GetComponent<TextMesh>();
+			Text txt = this.GetComponent<Text>();
 			txt.text = reader.GetMyString();
 		}
 	}
